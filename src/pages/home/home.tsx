@@ -1,88 +1,34 @@
+import hello from '../../assets/hello.png';
+import logohome from '../../assets/logohome.png';
 function Home() {
-    return (
-        <>
-            <div
-                style={{
-                    backgroundColor: "#312e81", 
-                    display: "flex",
-                    justifyContent: "center"
-                }}
-            >
-                <div
-                    style={{
-                        display: "grid",
-                        gridTemplateColumns: "1fr 1fr", 
-                        color: "white",
-                        width: "100%",
-                        maxWidth: "1280px", 
-                    }}
-                >
-                    <div
-                        style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: "1rem", 
-                            alignItems: "center",
-                            justifyContent: "center",
-                            paddingTop: "1rem", 
-                            paddingBottom: "1rem"
-                        }}
-                    >
-                        <h2
-                            style={{
-                                fontSize: "3rem", 
-                                fontWeight: "bold"
-                            }}
-                        >
-                            Seja Bem Vinde!
-                        </h2>
+  return (
+    <>
+      <div className="relative bg-sky-900 flex grow justify-center">
+        {/* imagem com textura */}
+        <img
+          src={logohome}
+          alt="Fundo"
+          className="absolute inset-0 w-full h-full object-cover opacity-30"
+        />
 
-                        <p
-                            style={{
-                                fontSize: "1.25rem" 
-                            }}
-                        >
-                            Expresse aqui seus pensamentos e opiniões
-                        </p>
-
-                        <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "space-around",
-                                gap: "1rem"
-                            }}
-                        >
-                            <div
-                                style={{
-                                    borderRadius: "0.5rem",
-                                    color: "white",
-                                    border: "2px solid white",
-                                    padding: "0.5rem 1rem"
-                                }}
-                            >
-                                Nova Postagem
-                            </div>
-                        </div>
-                    </div>
-
-                    <div
-                        style={{
-                            display: "flex",
-                            justifyContent: "center"
-                        }}
-                    >
-                        <img
-                            src="https://i.imgur.com/fyfri1v.png"
-                            alt="Imagem Página Home"
-                            style={{
-                                width: "66%"
-                            }}
-                        />
-                    </div>
-                </div>
+        {/*texto acima da imagem*/}
+        <div className="relative z-10 container grid grid-cols-2 text-orange-300">
+          <div className="flex flex-col gap-4 items-center justify-center py-4">
+            <h2 className="text-5xl font-bold text-center">Saudações, invocador!</h2>
+            <p className="text-xl text-orange-200 text-center">Bem vindo ao meu blog, sinta-se à vontade para compartilhar<br /> suas ideias e pensamentos sobre o nosso tão amodiado jogo.<br /> </p>
+            <div className="flex justify-around gap-4">
+              <div className="rounded bg-yellow-900 text-slate-100 font-bold hover:bg-yellow-700 cursor-pointer border-yellow-800 border-solid border-2 py-2 px-4">
+                Nova postagem
+              </div>
             </div>
-        </>
-    )
+          </div>
+          <div className="flex justify-center">
+            <img src={hello} alt="Imagem da Página Home" className="w-2/3" />
+          </div>
+        </div>
+      </div>
+    </>
+  )
 }
 
 export default Home
