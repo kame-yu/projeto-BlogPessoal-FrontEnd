@@ -1,12 +1,15 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Footer from './components/footer/Footer'
 import Navbar from './components/navbar/Navbar'
-import Home from './pages/home/home'
+import Cadastro from './pages/cadastro/cadastro.tsx'
+import Home from './pages/home/home.tsx'
+import Login from './pages/login/Login.tsx'
 
 function App() {
   return (
-    // 1. O 'div' principal deve ocupar 100% da altura (min-h-screen) e organizar tudo em coluna (flex flex-col)
     <div className="flex flex-col min-h-screen">
 
+		<BrowserRouter>
       <Navbar />
 
       {/* 2. O 'main' é o container do seu conteúdo.
@@ -15,11 +18,15 @@ function App() {
       */}
 
       <main className="grow flex flex-col">
-        <Home />
-        {/* Após adicionar as rotas, o <Outlet /> fica aqui */}
+				<Routes>
+				<Route path="/cadastro" element={<Cadastro />} />
+				<Route path="/home" element={<Home />} />
+				<Route path="/" element={<Login />} />
+				</Routes>
       </main>
 
       <Footer />
+		</BrowserRouter>
 
     </div>
   )
