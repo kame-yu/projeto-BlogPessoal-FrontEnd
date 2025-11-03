@@ -1,33 +1,38 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Footer from './components/footer/Footer'
 import Navbar from './components/navbar/Navbar'
-import Cadastro from './pages/cadastro/Cadastro.tsx'
-import Home from './pages/home/Home.tsx'
-import Login from './pages/login/Login.tsx'
-
+import ListaPostagens from './components/postagem/listapostagens/ListaPostagens'
+import DeletarTema from './components/tema/deletartema/DeletarTema'
+import FormTema from './components/tema/formtema/FormTema'
+import ListaTemas from './components/tema/listatemas/ListaTemas'
+import { AuthProvider } from './contexts/AuthContext'
+import Cadastro from './pages/cadastro/Cadastro'
+import Home from './pages/home/Home'
+import Login from './pages/login/Login'
+import FormPostagem from './components/postagem/formpostagem/FormPostagem'
 function App() {
   return (
     <div className="flex flex-col min-h-screen">
-
-		<BrowserRouter>
-      <Navbar />
-
-      {/* 2. O 'main' é o container do seu conteúdo.
-             - 'grow' faz ele crescer e ocupar o espaço vago.
-             - 'flex flex-col' é ESSENCIAL para que o 'grow' do 'Home'funcione.
-      */}
-
-      <main className="grow flex flex-col">
-				<Routes>
-				<Route path="/cadastro" element={<Cadastro />} />
-				<Route path="/home" element={<Home />} />
-				<Route path="/" element={<Login />} />
-				</Routes>
-      </main>
-
-      <Footer />
-		</BrowserRouter>
-
+			<AuthProvider>
+				<BrowserRouter>
+					<Navbar />
+					<div className="min-h-[80vh]">
+						<Routes>
+							<Route path="/" element={<Login />} />
+							<Route path="/home" element={<Home />} />
+							<Route path="/cadastro"	element={<Cadastro />}/>
+							<Route path="/temas" element={<ListaTemas />} />
+							<Route path="/cadastrartema" element={<FormTema />} />
+							<Route path="/editartema/:id" element={<FormTema />} />
+              <Route path="/deletartema/:id" element={<DeletarTema />} />
+              <Route path="/postagens" element={<ListaPostagens />} />
+              <Route path="/cadastrarpostagem" element={<FormPostagem />} />
+              <Route path="/editarpostagem/:id" element={<FormPostagem />} />
+						</Routes>
+					</div>
+					<Footer />
+				</BrowserRouter>
+			</AuthProvider>
     </div>
   )
 }
