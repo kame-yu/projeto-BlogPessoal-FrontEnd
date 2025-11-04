@@ -7,39 +7,53 @@ interface CardPostagensProps {
 
 function CardPostagem({ postagem }: CardPostagensProps) {
     return (
-        <div className='border-slate-900 border 
-            flex flex-col rounded overflow-hidden justify-between'>
+        <div className='bg-slate-800 text-slate-200 
+                        flex flex-col rounded-lg overflow-hidden justify-between shadow-xl h-full'>
 
             <div>
-                <div className="flex w-full bg-indigo-400 py-2 px-4 items-center gap-4">
+
+                <div className="flex w-full bg-teal-700 py-2 px-4 items-center gap-3">
                     <img
                         src={postagem.usuario?.foto}
-                        className='h-12 rounded-full'
+                        className='h-10 w-10 rounded-full object-cover border-2 border-slate-300' 
                         alt={postagem.usuario?.nome} />
-                    <h3 className='text-lg font-bold text-center uppercase'>
+                    <h3 className='text-base font-bold text-slate-100 uppercase'>
                         {postagem.usuario?.nome}
                     </h3>
                 </div>
-                <div className='p-4 '>
-                    <h4 className='text-lg font-semibold uppercase'>{postagem.titulo}</h4>
-                    <p>{postagem.texto}</p>
-                    <p>Tema: {postagem.tema?.descricao}</p>
-                    <p>Data: {new Intl.DateTimeFormat("pt-BR", {
-                        dateStyle: 'full',
-                        timeStyle: 'medium',
-                    }).format(new Date(postagem.data))}</p>
-                </div>
             </div>
-            <div className="flex">
-                <Link to='' 
-                    className='w-full text-white bg-indigo-400 
-                    hover:bg-indigo-800 flex items-center justify-center py-2'>
-                    <button>Editar</button>
+
+            <div className='p-4 flex flex-col gap-3 grow'>
+
+                <div>
+                    <span className='inline-block bg-teal-800 text-teal-100 
+                                     text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide'>
+                        {postagem.tema?.descricao}
+                    </span>
+                </div>
+                
+                <h4 className='text-xl font-semibold text-white uppercase'>{postagem.titulo}</h4>
+                
+                <p className='text-slate-300'>{postagem.texto}</p>
+                
+                <p className='text-sm text-slate-400'>Data: {new Intl.DateTimeFormat("pt-BR", {
+                    dateStyle: 'short', 
+                    timeStyle: 'short', 
+                }).format(new Date(postagem.data))}</p>
+            </div>
+
+            <div className="flex gap-4 p-4 justify-end border-t border-slate-700">
+                <Link to={`/editarpostagem/${postagem.id}`}
+                    className='rounded-md border border-slate-300 text-slate-300 font-semibold
+                               hover:bg-slate-800 hover:text-white transition-all
+                               px-5 py-2 text-sm'>
+                    Editar
                 </Link>
-                <Link to='' 
-                    className='text-white bg-red-400 
-                    hover:bg-red-700 w-full flex items-center justify-center'>
-                    <button>Deletar</button>
+                <Link to={`/deletarpostagem/${postagem.id}`}
+                    className='rounded-md bg-red-700 text-white font-semibold
+                               hover:bg-red-800 transition-all
+                               px-5 py-2 text-sm'>
+                    Deletar
                 </Link>
             </div>
         </div>

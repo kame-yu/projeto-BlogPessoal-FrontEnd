@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
 import { AuthContext } from "../../../contexts/AuthContext";
 import type Postagem from "../../../models/Postagem";
 import { buscar } from "../../../services/Service";
+import { ToastAlerta } from "../../../utils/ToastAlerta";
 import CardPostagem from "../cardpostagem/CardPostagem";
 
 function ListaPostagens() {
@@ -21,7 +21,7 @@ function ListaPostagens() {
 
     useEffect(() => {
         if (token === '') {
-            alert('Você precisa estar logado!')
+            ToastAlerta("Você precisa estar logado!", "erro")
             navigate('/')
         }
     }, [token])
@@ -38,6 +38,7 @@ function ListaPostagens() {
             await buscar('/postagens', setPostagens, {
                 headers: { Authorization: token }
             })
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             if (error.toString().includes('401')) {
                 handleLogout()
@@ -53,7 +54,7 @@ function ListaPostagens() {
             {isLoading && (
                 <div className="flex justify-center w-full my-8">
                     <SyncLoader
-                        color="#312e81"
+                        color="#c4ab67"
                         size={32}
                     />
                 </div>

@@ -1,8 +1,19 @@
 import { GithubLogoIcon, LinkedinLogoIcon, WhatsappLogoIcon } from '@phosphor-icons/react'
+import { useContext, type ReactNode } from "react"
+import { AuthContext } from '../../contexts/AuthContext'
 
 function Footer() {
-  const data = new Date().getFullYear()
-  return (
+
+    // eslint-disable-next-line prefer-const
+    let data = new Date().getFullYear()
+
+    const { usuario } = useContext(AuthContext)
+
+    let component: ReactNode
+    
+        if (usuario.token !== "") {
+    
+            component = ( 
     <>
       <div className="w-full flex justify-center bg-sky-950 text-orange-100 overflow-hidden  bg-linear-to-b from-sky-950 to-slate-800">
         <div className="container flex flex-col items-center py-4">
@@ -29,7 +40,15 @@ function Footer() {
         </div>
       </div>
     </>
-  )
+
+            )
+        }
+
+    return (
+        <>
+            { component }
+        </>
+    )
 }
 
 export default Footer

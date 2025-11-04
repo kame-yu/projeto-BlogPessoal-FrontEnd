@@ -1,84 +1,92 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
 import { AuthContext } from "../../../contexts/AuthContext";
 import type Tema from "../../../models/Tema";
 import { buscar } from "../../../services/Service";
+import { ToastAlerta } from "../../../utils/ToastAlerta";
 import CardTema from "../cardtema/CardTema";
 
 function ListaTemas() {
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [temas, setTemas] = useState<Tema[]>([]);
 
-    const [temas, setTemas] = useState<Tema[]>([])
+  const { usuario, handleLogout } = useContext(AuthContext);
+  const token = usuario.token;
 
-    const { usuario, handleLogout } = useContext(AuthContext)
-    const token = usuario.token
+  useEffect(() => {
+    if(token === '') {
+      ToastAlerta("Você precisa estar logado!", "erro");
+      navigate("/");
+    }
+  }, [token]);
 
-    useEffect(() => {
-        if (token === '') {
-            alert('Você precisa estar logado!')
-            navigate('/')
+  async function buscarTemas() {
+    try {
+      setIsLoading(true) 
+      await buscar('/temas', setTemas, {
+        headers: { Authorization: token }
+        })
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        if (error.toString().includes("401")) {
+          handleLogout()
         }
-    }, [token])
+      } finally {
+        setIsLoading(false);
+      }
+  }
 
-    useEffect(() => {
-        buscarTemas()    
-    }, [temas.length])
+  // MUDANÇA: O trigger [temas.length] causava uma busca duplicada.
+  // [token] garante que a busca ocorra uma vez quando o token estiver presente.
+  useEffect(() => {
+    buscarTemas()
+  }, [token])
 
-    async function buscarTemas() {
-        try {
+  function renderContent() {
+    if (isLoading) {
+      return (
+        <div className="flex justify-center items-center w-full py-32">
+          <SyncLoader
+            color="#c4ab67" 
+            size={32}
+          />
+        </div>
+      );
+    }
 
-            setIsLoading(true)
-
-            await buscar('/temas', setTemas, {
-                headers: { Authorization: token }
-            })
-        } catch (error: any) {
-            if (error.toString().includes('401')) {
-                handleLogout()
-            }
-        }finally {
-            setIsLoading(false)
-        }
+    if (temas.length === 0) {
+      return (
+        <span className="text-3xl text-center my-8 text-slate-100">
+          Nenhum Tema foi encontrado!
+        </span>
+      );
     }
 
     return (
-        <>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {temas.map((tema) => (
+          <CardTema key={tema.id} tema={tema} />
+        ))}
+      </div>
+    );
+  }
 
-            {isLoading && (
-                <div className="flex justify-center w-full my-8">
-                    <SyncLoader
-                        color="#312e81"
-                        size={32}
-                    />
-                </div>
-            )}
+  return (
+    <>
+      <div className="container mx-auto py-12">
+        <h1 className="text-4xl text-center my-4 text-slate-100 mb-10">
+            Temas Cadastrados:
+        </h1>
 
-            <div className="flex justify-center w-full my-4">
-                <div className="container flex flex-col">
-
-                    {(!isLoading && temas.length === 0) && (
-                            <span className="text-3xl text-center my-8">
-                                Nenhum Tema foi encontrado!
-                            </span>
-                    )}
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 
-                                    lg:grid-cols-3 gap-8">
-                            {
-                                temas.map((tema) => (
-                                    <CardTema key={tema.id} tema={tema}/>
-                                ))
-                            }
-                    </div>
-                </div>
-            </div>
-        </>
-    )
+        {renderContent()}
+      </div>
+    </>
+  )
 }
-export default ListaTemas;
+
+export default ListaTemas
