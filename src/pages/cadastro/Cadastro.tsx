@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Importando o Link
 import { ClipLoader } from "react-spinners";
 import type Usuario from "../../models/Usuario";
 import { cadastrarUsuario } from "../../services/Service";
@@ -22,6 +22,7 @@ function Cadastro() {
     foto: ''
   })
 
+  // ... (Toda a sua lógica de funções permanece idêntica) ...
   useEffect(() => {
     if (usuario.id !== 0){
       retornar()
@@ -69,117 +70,129 @@ function Cadastro() {
 
   return (
     <>
-      {/* AQUI: O grid-cols-2 está correto, mantendo o layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 h-screen 
-            place-items-center font-bold">
-        
-        {/* AQUI: O formulário veio PRIMEIRO, para ficar à esquerda */}
-        <form className='flex justify-center items-center flex-col w-2/3 gap-3'
-            onSubmit={cadastrarNovoUsuario}>
+      <div className="grid grid-cols-1 lg:grid-cols-2 min-h-screen font-bold ">
 
-          {/* AQUI: Cor do título */}
-          <h2 className='text-orange-300 text-5xl'>Cadastrar</h2>
-          
-          <div className="flex flex-col w-full">
-            {/* AQUI: Cor da label */}
-            <label htmlFor="nome" className="text-orange-200">Nome</label>
-            <input
-              type="text"
-              id="nome"
-              name="nome"
-              placeholder="Nome"
-              // AQUI: Estilização completa do input
-              className="border-2 border-slate-700 rounded p-2 bg-gray-950 text-orange-100 placeholder:text-slate-400 focus:outline-none focus:border-orange-500 transition-colors"
-              value = {usuario.nome}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
-            />
-          </div>
-          <div className="flex flex-col w-full">
-            {/* AQUI: Cor da label */}
-            <label htmlFor="usuario" className="text-orange-200">Usuario (E-mail)</label>
-            <input
-              type="text"
-              id="usuario"
-              name="usuario"
-              placeholder="teemo@email.com"
-              // AQUI: Estilização completa do input
-              className="border-2 border-slate-700 rounded p-2 bg-gray-950 text-orange-100 placeholder:text-slate-400 focus:outline-none focus:border-orange-500 transition-colors"
-              value = {usuario.usuario}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
-            />
-          </div>
-          <div className="flex flex-col w-full">
-            {/* AQUI: Cor da label */}
-            <label htmlFor="foto" className="text-orange-200">Foto (URL)</label>
-            <input
-              type="text"
-              id="foto"
-              name="foto"
-              placeholder="URL da sua foto de perfil"
-              // AQUI: Estilização completa do input
-              className="border-2 border-slate-700 rounded p-2 bg-gray-950 text-orange-100 placeholder:text-slate-400 focus:outline-none focus:border-orange-500 transition-colors"
-              value = {usuario.foto}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
-            />
-          </div>
-          <div className="flex flex-col w-full">
-            {/* AQUI: Cor da label */}
-            <label htmlFor="senha" className="text-orange-200">Senha</label>
-            <input
-              type="password"
-              id="senha"
-              name="senha"
-              placeholder="Senha (mínimo 8 caracteres)"
-              // AQUI: Estilização completa do input
-              className="border-2 border-slate-700 rounded p-2 bg-gray-950 text-orange-100 placeholder:text-slate-400 focus:outline-none focus:border-orange-500 transition-colors"
-              value = {usuario.senha}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
-            />
-          </div>
-          <div className="flex flex-col w-full">
-            {/* AQUI: Cor da label */}
-            <label htmlFor="confirmarSenha" className="text-orange-200">Confirmar Senha</label>
-            <input
-              type="password"
-              id="confirmarSenha"
-              name="confirmarSenha"
-              placeholder="Confirme sua Senha"
-              // AQUI: Estilização completa do input
-              className="border-2 border-slate-700 rounded p-2 bg-gray-950 text-orange-100 placeholder:text-slate-400 focus:outline-none focus:border-orange-500 transition-colors"
-              value={confirmarSenha}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => handleConfirmarSenha(e)}
-            />
-          </div>
-          <div className="flex justify-around w-full gap-8">
-            <button
-                type='reset'
-                // AQUI: Botão secundário (Cancelar) com cores do tema
-                className='rounded text-slate-100 bg-red-900 hover:bg-red-800 
-                          w-1/2 py-2 border-slate-700 border-solid border-2 font-bold'
-                onClick={retornar}
-              >
-              Cancelar
-            </button>
-            <button 
-                type='submit'
-                // AQUI: Botão principal (Cadastrar) idêntico ao de Login
-                className='rounded text-slate-100 bg-yellow-900 hover:bg-yellow-800 
-                          w-1/2 py-2 flex justify-center border-slate-700 border-solid border-2 font-bold' 
-              >
-              { isLoading ? 
-                <ClipLoader 
-                  color="#ffffff" 
-                  size={24}
-                /> : 
-                <span>Cadastrar</span>
-              }
-            </button>
-          </div>
-        </form>
+        <div className="flex items-center justify-center w-full h-full bg-sky-950 p-8">
+            
+          <form 
+              className="flex flex-col justify-center gap-4 w-full max-w-md 
+                         p-8 bg-slate-900/50 backdrop-blur-sm rounded-lg shadow-2xl"
+              onSubmit={cadastrarNovoUsuario}
+          >
 
-        {/* AQUI: A div da imagem veio DEPOIS, para ficar à direita */}
-        <div className="lg:block hidden bg-no-repeat w-full min-h-screen bg-cover bg-right
-                        bg-[linear-gradient(to_right,#0f172a_0%,#0f172a80_15%,transparent_30%),url('https://i.imgur.com/ZZFAmzo.jpg')]"
+            <h2 className='text-orange-300 text-4xl text-center mb-4'>Cadastro</h2>
+            
+            <div className="flex flex-col w-full">
+              <label htmlFor="nome" className="text-slate-300 mb-1 text-sm">Nome</label>
+              <input
+                type="text"
+                id="nome"
+                name="nome"
+                placeholder="Seu nome completo"
+                className="border-2 border-slate-700 rounded p-2 bg-slate-800/50 
+                           text-orange-100 placeholder:text-slate-500 
+                           focus:outline-none focus:border-orange-400 focus:ring-1 focus:ring-orange-400"
+                value = {usuario.nome}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
+              />
+            </div>
+            <div className="flex flex-col w-full">
+              <label htmlFor="usuario" className="text-slate-300 mb-1 text-sm">Usuario (E-mail)</label>
+              <input
+                type="text"
+                id="usuario"
+                name="usuario"
+                placeholder="teemo@email.com"
+                className="border-2 border-slate-700 rounded p-2 bg-slate-800/50 
+                           text-orange-100 placeholder:text-slate-500 
+                           focus:outline-none focus:border-orange-400 focus:ring-1 focus:ring-orange-400"
+                value = {usuario.usuario}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
+              />
+            </div>
+            <div className="flex flex-col w-full">
+              <label htmlFor="foto" className="text-slate-300 mb-1 text-sm">Foto (URL)</label>
+              <input
+                type="text"
+                id="foto"
+                name="foto"
+                placeholder="URL da sua foto de perfil"
+                className="border-2 border-slate-700 rounded p-2 bg-slate-800/50 
+                           text-orange-100 placeholder:text-slate-500 
+                           focus:outline-none focus:border-orange-400 focus:ring-1 focus:ring-orange-400"
+                value = {usuario.foto}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
+              />
+            </div>
+            <div className="flex flex-col w-full">
+              {/* // AQUI: Linha corrigida. O texto extra foi removido. */}
+              <label htmlFor="senha" className="text-slate-300 mb-1 text-sm">Senha</label>
+              <input
+                type="password"
+                id="senha"
+                name="senha"
+                placeholder="Senha (mínimo 8 caracteres)"
+                className="border-2 border-slate-700 rounded p-2 bg-slate-800/50 
+                           text-orange-100 placeholder:text-slate-500 
+                           focus:outline-none focus:border-orange-400 focus:ring-1 focus:ring-orange-400"
+                value = {usuario.senha}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
+              />
+            </div>
+            <div className="flex flex-col w-full">
+              <label htmlFor="confirmarSenha" className="text-slate-300 mb-1 text-sm">Confirmar Senha</label>
+              <input
+                type="password"
+                id="confirmarSenha"
+                name="confirmarSenha"
+                placeholder="Confirme sua Senha"
+                className="border-2 border-slate-700 rounded p-2 bg-slate-800/50 
+                           text-orange-100 placeholder:text-slate-500 
+                           focus:outline-none focus:border-orange-400 focus:ring-1 focus:ring-orange-400"
+                value={confirmarSenha}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => handleConfirmarSenha(e)}
+              />
+            </div>
+
+            <div className="flex justify-around w-full gap-4 mt-2">
+              <button
+                  type='button' 
+                  className='rounded text-slate-100 bg-slate-700 hover:bg-slate-600 
+                            w-full py-3 font-bold transition-all duration-300'
+                  onClick={retornar}
+                >
+                Cancelar
+              </button>
+              <button 
+                  type='submit'
+                  className='rounded text-slate-100 bg-yellow-900 hover:bg-yellow-800 
+                            w-full py-3 flex justify-center font-bold transition-all duration-300' 
+                >
+                { isLoading ? 
+                  <ClipLoader 
+                    color="#ffffff" 
+                    size={24}
+                  /> : 
+                  <span>Criar conta</span>
+                }
+              </button>
+            </div>
+
+            <hr className="border-slate-700 w-full" />
+
+            <p className="text-slate-300 text-center text-sm">
+                Já tem uma conta?{' '}
+                <Link to="/" className="text-orange-300 hover:underline">
+                    Login
+                </Link>
+            </p>
+
+          </form>
+        </div>
+
+        <div 
+            className="lg:block hidden bg-no-repeat w-full h-full bg-cover bg-right
+                     bg-[linear-gradient(to_right,#082f49_0%,#0f172a80_15%,transparent_30%),url('https://cdn12.idcgames.com/storage/image/1106/norra/default.jpg')]"
         ></div>
         
       </div>
