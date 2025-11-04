@@ -11,11 +11,11 @@ import FormTema from './components/tema/formtema/FormTema'
 import ListaTemas from './components/tema/listatemas/ListaTemas'
 import { AuthProvider } from './contexts/AuthContext'
 import Cadastro from './pages/cadastro/Cadastro'
-import Home from './pages/home/Home'
 import Login from './pages/login/Login'
 import Perfil from './pages/perfil/Perfil'
 
 import 'react-toastify/dist/ReactToastify.css'
+import Home from './pages/home/Home'
 
 
 function App() {
