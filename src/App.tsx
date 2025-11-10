@@ -17,7 +17,7 @@ import Perfil from './pages/perfil/Perfil'
 import 'react-toastify/dist/ReactToastify.css'
 import Home from './pages/home/Home'
 
-
+// rotas principais
 function App() {
   return (
     <div className="flex flex-col min-h-screen">
